@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class NewsDetailsScreen extends StatelessWidget {
   String newImage, newsTitle, newsDate, auther, description, content, source;
   NewsDetailsScreen({
@@ -19,7 +22,7 @@ class NewsDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
+    log('view');
     final height = MediaQuery.sizeOf(context).height * 1;
     DateTime dateTime = DateTime.parse(newsDate);
     return Scaffold(

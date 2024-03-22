@@ -10,10 +10,11 @@ import 'package:provider/provider.dart';
 import '../models/categories_news_model.dart';
 import '../controller/fetching_provider.dart';
 
+// ignore: must_be_immutable
 class CategoriesScreen extends StatelessWidget {
   CategoriesScreen({super.key});
 
-  NewsViewModel newsViewModel = NewsViewModel();
+  ServiceProvider newsViewModel = ServiceProvider();
 
   final formate = DateFormat('MMM dd, yyyy');
 
@@ -99,7 +100,8 @@ class CategoriesScreen extends StatelessWidget {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) => const Icon(
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(
                                     Icons.error_outline,
                                     color: Colors.red,
                                   ),
@@ -108,7 +110,8 @@ class CategoriesScreen extends StatelessWidget {
                               Expanded(
                                   child: Container(
                                 height: height * .18,
-                                padding: const EdgeInsets.only(left: 15, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 10),
                                 child: Column(
                                   children: [
                                     Text(snapshot.data!.articles![index].title

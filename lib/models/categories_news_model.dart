@@ -5,7 +5,7 @@ class CategoriesNewsModel {
 
   CategoriesNewsModel({this.status, this.totalResults, this.articles});
 
-  CategoriesNewsModel.fromJson(Map<String, dynamic> json) {
+  CategoriesNewsModel.fromJson(Map<String, dynamic> json) { 
     status = json['status'];
     totalResults = json['totalResults'];
     if (json['articles'] != null) {

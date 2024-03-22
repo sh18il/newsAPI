@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:news_api/controller/provider.dart';
+import 'package:news_api/controller/homescreen.dart';
 import 'package:news_api/view/categories_screens.dart';
 import 'package:news_api/models/nwes_hedline.dart';
 import 'package:news_api/controller/fetching_provider.dart';
@@ -13,21 +13,18 @@ import 'package:provider/provider.dart';
 
 import '../models/categories_news_model.dart';
 
-
-
 enum FilterList { bbcNews, aryNews, alJazeera, cnnNews }
 
 class HomeScreen extends StatelessWidget {
-  NewsViewModel newsViewModel = NewsViewModel();
-
-
   final formate = DateFormat('MMM dd, yyyy');
-  
+
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     log('home');
     final provider = Provider.of<HomeScreenProvider>(context, listen: false);
+    final prov = Provider.of<ServiceProvider>(context, listen: false);
     final width = MediaQuery.sizeOf(context).width * 1;
     final height = MediaQuery.sizeOf(context).height * 1;
     return Scaffold(
@@ -72,12 +69,13 @@ class HomeScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          Consumer<HomeScreenProvider>(builder: (context, pro, _) {
+          Consumer2<HomeScreenProvider, ServiceProvider>(
+              builder: (context, pro, provider, _) {
             return SizedBox(
               height: height * .55,
               width: width,
               child: FutureBuilder<NewsChannelHeadLinesModel>(
-                future: newsViewModel.fetchNewsChannelHeadLinesApi(pro.name),
+                future: provider.fetchNewsChannelHeadLinesApi(pro.name),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -167,8 +165,8 @@ class HomeScreen extends StatelessWidget {
                                           SizedBox(
                                             width: width * 0.7,
                                             child: Text(
-                                              snapshot.data!.articles![index]
-                                                  .title
+                                              snapshot
+                                                  .data!.articles![index].title
                                                   .toString(),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
@@ -222,7 +220,7 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: FutureBuilder<CategoriesNewsModel>(
-                future: newsViewModel.fetchCategoryApi('General'),
+                future: prov.fetchCategoryApi('General'),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -259,7 +257,8 @@ class HomeScreen extends StatelessWidget {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) => const Icon(
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(
                                     Icons.error_outline,
                                     color: Colors.red,
                                   ),
@@ -268,7 +267,8 @@ class HomeScreen extends StatelessWidget {
                               Expanded(
                                   child: Container(
                                 height: height * .18,
-                                padding: const EdgeInsets.only(left: 15, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 15, right: 10),
                                 child: Column(
                                   children: [
                                     Text(snapshot.data!.articles![index].title
