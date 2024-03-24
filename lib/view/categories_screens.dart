@@ -4,17 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-import 'package:news_api/controller/categories_provider.dart';
+import 'package:news_api/controller/categories_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../models/categories_news_model.dart';
-import '../controller/fetching_provider.dart';
+import '../controller/fetching_controller.dart';
 
 // ignore: must_be_immutable
 class CategoriesScreen extends StatelessWidget {
   CategoriesScreen({super.key});
-
-  ServiceProvider newsViewModel = ServiceProvider();
 
   final formate = DateFormat('MMM dd, yyyy');
 
@@ -61,10 +59,11 @@ class CategoriesScreen extends StatelessWidget {
               },
             ),
           ),
-          Consumer<CategoriesProvider>(builder: (context, provi, _) {
+          Consumer2<CategoriesProvider, ServiceProvider>(
+              builder: (context, provi, newsView, _) {
             return Expanded(
               child: FutureBuilder<CategoriesNewsModel>(
-                future: newsViewModel.fetchCategoryApi(provi.categoryItem),
+                future: newsView.fetchCategoryApi(provi.categoryItem),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -72,6 +71,10 @@ class CategoriesScreen extends StatelessWidget {
                         size: 50,
                         color: Colors.black,
                       ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
                     );
                   } else {
                     return ListView.builder(

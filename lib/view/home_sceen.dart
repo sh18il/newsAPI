@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:news_api/controller/homescreen.dart';
+import 'package:news_api/controller/homescreen_controller.dart';
 import 'package:news_api/view/categories_screens.dart';
 import 'package:news_api/models/nwes_hedline.dart';
-import 'package:news_api/controller/fetching_provider.dart';
+import 'package:news_api/controller/fetching_controller.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:news_api/view/news_detail_screen.dart';
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
         title: const Center(
           child: Text(
             'News',
-            // style: GoogleFonts.podkova(fontSize: 24, fontWeight: FontWeight.w700),
+          
           ),
         ),
         actions: [
@@ -84,7 +84,14 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.black,
                       ),
                     );
-                  } else {
+                  } else if (snapshot.hasError){
+                      return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+
+                  }else
+                  
+                   {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: snapshot.data!.articles!.length,

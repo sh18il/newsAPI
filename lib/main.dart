@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_api/controller/categories_provider.dart';
-import 'package:news_api/controller/fetching_provider.dart';
+import 'package:news_api/controller/categories_controller.dart';
+import 'package:news_api/controller/fetching_controller.dart';
 import 'package:provider/provider.dart';
 
-import 'controller/homescreen.dart';
+import 'controller/homescreen_controller.dart';
 import 'view/home_sceen.dart';
 
 void main() {

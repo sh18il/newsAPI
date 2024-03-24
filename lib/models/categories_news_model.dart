@@ -16,15 +16,6 @@ class CategoriesNewsModel {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['totalResults'] = totalResults;
-    if (articles != null) {
-      data['articles'] = articles!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class Articles {
